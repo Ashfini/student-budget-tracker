@@ -3,7 +3,11 @@ import type { Transaction, Category } from "../types";
 // TODO 1: Define a TypeScript interface called "TransactionItemProps" with:
 //         - transaction: Transaction
 //         - onDelete: a function that takes (id: number) and returns void
-
+// - Completed
+interface TransactionItemProps {
+  transaction: Transaction;
+  onDelete: (id:number) => void;
+}
 // These maps are provided for you — they connect categories to emojis and CSS classes
 const categoryEmojis: Record<Category, string> = {
   Food: "🍔",
@@ -25,9 +29,9 @@ const categoryClasses: Record<Category, string> = {
   Other: "other",
 };
 
-// TODO 2: Update the function signature to accept props using your interface.
+// TODO 2: Update the function signature to accept props using your interface. - Completed
 
-function TransactionItem() {
+function TransactionItem({transaction, onDelete}: TransactionItemProps) {
   const formatCurrency = (amount: number): string => {
     return "$" + amount.toFixed(2);
   };
@@ -38,19 +42,23 @@ function TransactionItem() {
         {/* TODO 3: Render the category icon
             Use categoryEmojis[transaction.category] for the emoji
             Use categoryClasses[transaction.category] for the CSS class
-            
+           
+            -Completed
+            */  
             <div className={`category-icon ${categoryClasses[transaction.category]}`}>
               {categoryEmojis[transaction.category]}
             </div>
-        */}
+        }
         <div className="transaction-details">
-          {/* TODO 4: Display the transaction description */}
-          <div className="transaction-description">Description here</div>
+          {/* TODO 4: Display the transaction description - Completed */}
+          <div className="transaction-description">
+            {transaction.description}
+          </div>
           {/* TODO 5: Display the category and date */}
           <div className="transaction-meta">
-            <span>Category</span>
+            <span>{transaction.category}</span>
             <span>•</span>
-            <span>Date</span>
+            <span>{transaction.date}</span>
           </div>
         </div>
       </div>
@@ -59,13 +67,19 @@ function TransactionItem() {
             - Show "-" prefix for expenses, "+" for income
             - Use className "transaction-amount income" or "transaction-amount expense"
             Hint: className={`transaction-amount ${transaction.type}`}
+            -Completed
         */}
-        <span className="transaction-amount">$0.00</span>
-
+          <span className={`transaction-amount ${transaction.type}`}>
+            {transaction.type === "income" ? "+" : "-"}
+            {formatCurrency(transaction.amount)}
+          </span>
         {/* TODO 7: Add a delete button that calls onDelete with the transaction's id */}
-        <button className="delete-btn" title="Delete transaction">
-          ×
-        </button>
+    <button 
+      className="delete-btn" 
+      onClick={() => onDelete(transaction.id)} 
+      title="Delete transaction">
+      ×
+    </button>
       </div>
     </div>
   );
